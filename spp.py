@@ -1,23 +1,22 @@
-# library dependencies
+#library dependencies
 
-from keras.layers import MaxPool2D 
-import keras.backend as K
+from keras .layers import MaxPool2D , Flatten , merge
 import numpy as np 
 
 
-class Spatial_Pyramidal_Pooling:
+class Spatial_Pyramidal_Pooling_Layer():
 
-	def Pooling2D(input_tensor, pool_levels):
+	def spatial_pooling_2D(input_tensor,pooling_bins):
 		pool_list=[]
-		shape=input_tensor.shape
-		for level in pool_levels:
-			window_height=np.ceil(int(shape[1])/level)
-			window_width=np.ceil(int(shape[2])/level)
-			stride_height=np.floor(int(shape[1])/level)
-			stride_width=np.floor(int(shape[2])/level)
+		shape=input_tensor.get_shape().as_list()
+		for level in pooling_bins:
+			window_height=int(np.ceil(int(shape[1])/level))
+			window_width=int(np.ceil(int(shape[2])/level))
+			stride_height=int(np.floor(int(shape[1])/level))
+			stride_width=int(np.floor(int(shape[2])/level))
 			pooling=MaxPool2D(pool_size=(window_height,window_width),strides=(stride_height,stride_width))(input_tensor)
-			flattened_tensor=K.flatten(pooling)
-			pool_list.append(flattened_tensor)
-		output_tensor=K.concatenate(pool_list,axis=-1)
+			print(pooling.get_shape())
+			pool_list.append(Flatten()(pooling))
+		output_tensor=merge(pool_list,mode='concat',concat_axis=-1)
 		return(output_tensor)
 
