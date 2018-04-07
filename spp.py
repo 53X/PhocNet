@@ -15,7 +15,6 @@ class Spatial_Pyramidal_Pooling_Layer():
 			stride_height=int(np.floor(int(shape[1])/level))
 			stride_width=int(np.floor(int(shape[2])/level))
 			pooling=MaxPool2D(pool_size=(window_height,window_width),strides=(stride_height,stride_width))(input_tensor)
-			print(pooling.get_shape())
 			pool_list.append(Flatten()(pooling))
 		output_tensor=merge(pool_list,mode='concat',concat_axis=-1)
 		return(output_tensor)
