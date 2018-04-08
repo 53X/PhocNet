@@ -2,6 +2,13 @@ import numpy as np
 
 alphabet=[chr(i) for i in range(97,123)]
 digits=[chr(i) for i in range(48,58)]
+bigrams=[ 'th' , 'he'  ,'in'  ,'er' , 'an'  ,'re'  ,'on'  ,'at'  ,'en'  ,'nd'  ,
+          'ti' ,'es'  ,'or'  ,'te'  ,'of'  ,'ed'  ,'is'  ,'it'  ,'al'   ,'ar'   ,
+          'st'   ,'to' ,'nt'   ,'ng'   ,'se'   ,'ha'   ,'as'   ,'ou'   ,'io'   ,
+          'le'   ,'ve'   ,'co'   ,'me'   ,'de'   ,'hi'   ,'ri'   ,'ro'   ,'ic'   ,
+          'ne'   ,'ea'   ,'ra'   ,'ce'   ,'li'   ,'ch'   ,'ll'   ,'be'   ,'ma'   ,'si'   ,'om'   ,'ur' ]
+
+
 
 
 	class develop_phoc():
@@ -55,5 +62,37 @@ digits=[chr(i) for i in range(48,58)]
 				    feature_vector=feature_vector+level_feature
 
 			return(np.array(feature_vector))	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
