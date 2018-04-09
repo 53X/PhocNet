@@ -48,12 +48,21 @@ class develop_phoc():
             feature_vector=[]
         
             for split in split_levels:
-                substrings=develop_phoc.split_string(string,split)
-                for sub in substrings:
-                    level_feature=develop_phoc.extract_feature(sub,split)
-                    feature_vector=feature_vector+level_feature
+
+                if(split <= len(string)):
+                    substrings=develop_phoc.split_string(string,split)
+                    for sub in substrings:
+                        level_feature=develop_phoc.extract_feature(sub,split)
+                        feature_vector=feature_vector+level_feature
+                else:
+                    level_feature=list(np.zeros(86)) if split==2 else list(np.zeros(36))
+                    feature_vector=feature_vector+level_feature        
 
             return(feature_vector)  
+
+l=develop_phoc.phoc_representation('Pranay')
+print(len(l))
+
 
 
 
