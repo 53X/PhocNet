@@ -8,13 +8,12 @@ import tensorflow as tf
 
 def convolutional_layer(input_tensor,filter_length,filter_width,num_filters,strides=[1,1,1,1],pooling=True):
 
-	input_shape=input_tensor.shape
-	input_channels=int(input_shape[-1])
+	input_channels=input_tensor.get_shape().as_list()[-1]
 
 	#Filter Weights and biases
 
-	weights_for_layer=tf.Variable(tf.truncated_normal(shape=[filter_length,filter_width,input_channels,num_filters],mean=0.4))
-	biases_for_layer=tf.Variable(tf.constant(0.1,shape=[num_filters]))
+	weights_for_layer=tf.Variable(tf.truncated_normal(shape=[filter_length,filter_width,input_channels,num_filters],mean=0.4),tf.float32)
+	biases_for_layer=tf.Variable(tf.constant(0.1,shape=[num_filters]),tf.float32)
 
 	#applying the convolution operation
 
@@ -39,12 +38,12 @@ def convolutional_layer(input_tensor,filter_length,filter_width,num_filters,stri
 
 def fully_connected_layer(input_tensor,output_dimensions,activation='relu'):
 
-	input_dimensions=input_tensor.shape[-1]
+	input_dimensions=input_tensor.get_shape().as_list()[-1]
 	
 	#weights and biases
 
-	weights_for_layer=tf.Variable(tf.truncated_normal(0.5,shape=[input_dimensions,output_dimensions]))
-	biases_for_layer=tf.Variable(tf.constant(0.1,shape=[output_dimensions])) 
+	weights_for_layer=tf.Variable(tf.truncated_normal(0.5,shape=[input_dimensions,output_dimensions]),tf.float32)
+	biases_for_layer=tf.Variable(tf.constant(0.1,shape=[output_dimensions]),tf.float32) 
 
 	#FC Layer operation
 
@@ -52,5 +51,22 @@ def fully_connected_layer(input_tensor,output_dimensions,activation='relu'):
 	final_tensor=tf.add(final_tensor,biases_for_layer)
 
 	return final_tensor
+
+
+# Flatten layer for the PHOCNET Architecture
+
+def flatten_layer(input_tensor):
+
+	shape=input_tensor.get_shape().as_list()
+	num_features=shape[1]*shape[2]*shape[3]
+
+	#flatten operation
+
+	flattened_tensor=tf.reshape(input_tensor,shape=[-1,num_features])
+
+	return(flattened_tensor)
+
+
+
 
 	
