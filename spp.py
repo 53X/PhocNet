@@ -1,21 +1,35 @@
 #library dependencies
 
-from keras .layers import MaxPool2D , Flatten , merge
-import numpy as np 
+import tensorflow as tf
+import numpy as np
+from phocnet import flatten_layer 
+
+#Spatial Pyramidal Pooling Layer
 
 
 class Spatial_Pyramidal_Pooling_Layer():
 
-	def spatial_pooling_2D(input_tensor,pooling_bins):
-		pool_list=[]
-		shape=input_tensor.get_shape().as_list()
-		for level in pooling_bins:
-			window_height=int(np.ceil(int(shape[1])/level))
-			window_width=int(np.ceil(int(shape[2])/level))
-			stride_height=int(np.floor(int(shape[1])/level))
-			stride_width=int(np.floor(int(shape[2])/level))
-			pooling=MaxPool2D(pool_size=(window_height,window_width),strides=(stride_height,stride_width))(input_tensor)
-			pool_list.append(Flatten()(pooling))
-		output_tensor=merge(pool_list,mode='concat',concat_axis=-1)
-		return(output_tensor)
+	def spp_layer(input_tensor,pooling_bins):
 
+		input_shape=input_tensor.get_shape().as_list()
+		pool_list=[]
+
+		for levels in pooling_bins:
+
+			window_height=int(np.ceil(input_shape[1]/levels))
+			window_width=int(np.ceil(input_shape[2]/levels))
+			stride_height=int(np.floor(input_shape[1]/levels))
+			stride_width=int(np.floor(input_shape[2]/levels))
+
+			pool_tensor=tf.nn.max_pool(input_tensor,ksize=[1,window_height,window_width,1],strides=[1,stride_height,stride_width,1],padding='VALID')
+			flattened_tensor=flatten_layer(pool_tensor)
+			pool_list.append(flattened_tensor)
+
+		spp_out=tf.concat(pool_list,axis=-1)
+
+		return(spp_out)	
+
+
+
+
+	
