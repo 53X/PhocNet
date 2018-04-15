@@ -32,3 +32,25 @@ def convolutional_layer(input_tensor,filter_length,filter_width,num_filters,stri
 		conv_tensor=tf.nn.max_pool(conv_tensor,ksize=[1,2,2,1],strides=[1,2,2,1],padding='VALID')
 
 		return conv_tensor	
+
+
+#  Fully Connected Layer for the PHOCNET architecture
+
+
+def fully_connected_layer(input_tensor,output_dimensions,activation='relu'):
+
+	input_dimensions=input_tensor.shape[-1]
+	
+	#weights and biases
+
+	weights_for_layer=tf.Variable(tf.truncated_normal(0.5,shape=[input_dimensions,output_dimensions]))
+	biases_for_layer=tf.Variable(tf.constant(0.1,shape=[output_dimensions])) 
+
+	#FC Layer operation
+
+	final_tensor=tf.matmul(input_tensor,weights_for_layer)
+	final_tensor=tf.add(final_tensor,biases_for_layer)
+
+	return final_tensor
+
+	
