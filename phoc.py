@@ -60,8 +60,7 @@ class develop_phoc():
 
             return(feature_vector)  
 
-l=develop_phoc.phoc_representation('Pranay')
-print(len(l))
+
 
 
 
